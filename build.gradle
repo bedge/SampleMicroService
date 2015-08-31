@@ -42,11 +42,11 @@ dependencies {
 	testCompile "org.springframework.boot:spring-boot-starter-test"
 
 
-    smokeTestCompile "org.gebish:geb-core:0.9.3"
-    smokeTestCompile "org.seleniumhq.selenium:selenium-chrome-driver:2.41.0"
-    smokeTestCompile "org.seleniumhq.selenium:selenium-support:2.41.0"
-    smokeTestCompile "org.gebish:geb-spock:0.9.3"
-    smokeTestCompile "org.spockframework:spock-core:1.0-groovy-2.3"
+//    smokeTestCompile "org.gebish:geb-core:0.9.3"
+//    smokeTestCompile "org.seleniumhq.selenium:selenium-chrome-driver:2.41.0"
+//    smokeTestCompile "org.seleniumhq.selenium:selenium-support:2.41.0"
+//    smokeTestCompile "org.gebish:geb-spock:0.9.3"
+//    smokeTestCompile "org.spockframework:spock-core:1.0-groovy-2.3"
 }
 
 processResources {
