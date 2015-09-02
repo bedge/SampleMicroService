@@ -22,7 +22,12 @@ apply from: "gradle/autoversioning.gradle"
 //apply from: 'gradle/smoketests.gradle'
 //apply from: 'gradle/issuetracker.gradle'
 
-
+release {
+	
+	git {
+		requireBranch = 'develop'
+	}
+}
 repositories {
     jcenter()
 	maven {
