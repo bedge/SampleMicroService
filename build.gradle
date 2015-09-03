@@ -49,7 +49,7 @@ task createReleaseBranch() {
 		}
 		catch(Exception e) {}
 		branchService.add(name: releaseBranchName, startPoint: 'develop', mode: BranchAddOp.Mode.TRACK)
-		repo.push(all:true, tags: true)	
+		repo.push(tags: true)	
 	}	
 }
 
