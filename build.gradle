@@ -81,3 +81,15 @@ processResources {
 
 	filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [version: project.version])
 }
+
+class CustomEventLogger extends BuildAdapter implements TaskExecutionListener {
+	public void beforeExecute(Task task) {
+		println "beforeExec ${task.name}"
+		println "${(new File('gradle.properties')).text}"
+	}
+	public void afterExecute(Task task, TaskState state) {
+		println "afterExec ${task.name}"
+	}
+}
+gradle.useLogger(new CustomEventLogger())
+
