@@ -31,13 +31,17 @@ release {
 }
 
 task createReleaseBranch() {
-	repo = Grgit.open(project.file('.'))
-	println "repo=${repo.getClass()}"
-	def branchService = repo.getBranch()
-	println "branchService=${branchService.getClass()}"
-	println "branch current=${branchService.getCurrent()}"
-	branchService.add(name: "release/test")	
-	println "branch current=${branchService.getCurrent()}"
+	doLast {
+		repo = Grgit.open(project.file('.'))
+		println "repo=${repo.getClass()}"
+		def branchService = repo.getBranch()
+		println "branchService=${branchService.getClass()}"
+		def developBranch = branchService.getCurrent()
+		println "branch current=${developBranch}"
+		branchService.add(name: "release/test")	
+		println "branch current=${branchService.getCurrent()}"
+		//branchService.change(name: "develop")
+	}	
 }
 
 afterReleaseBuild.dependsOn createReleaseBranch
