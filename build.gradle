@@ -44,7 +44,7 @@ task createReleaseBranch() {
 	}	
 }
 
-afterReleaseBuild.dependsOn createReleaseBranch
+updateVersion.dependsOn createReleaseBranch
 
 repositories {
     jcenter()
