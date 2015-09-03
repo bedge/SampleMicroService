@@ -22,20 +22,32 @@ apply from: "gradle/autoversioning.gradle"
 //apply from: 'gradle/smoketests.gradle'
 //apply from: 'gradle/issuetracker.gradle'
 
+ext.repo = Grgit.open(project.file('.'))
+
 release {
-	
 	git {
 		requireBranch = 'develop'
 	}
 }
+
+task createReleaseBranch() {
+	repo = Grgit.open(project.file('.'))
+	println "repo=${repo.getClass()}"
+	def branchService = repo.getBranch()
+	println "branchService=${branchService.getClass()}"
+	println "branch current=${branchService.getCurrent()}"
+	branchService.add(name: "release/test")	
+	println "branch current=${branchService.getCurrent()}"
+}
+
+afterReleaseBuild.dependsOn createReleaseBranch
+
 repositories {
     jcenter()
 	maven {
 		url = "https://repo.gradle.org/gradle/evaluation-snapshot-repo"
 	}
 }
-
-ext.repo = Grgit.open(project.file('.'))
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
