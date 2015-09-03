@@ -47,7 +47,8 @@ task createReleaseBranch() {
 			throw new GradleException("Branch ${releaseBranchName} already exists.")
 		}
 		catch(Exception e) {}
-		branchService.add(name: releaseBranchName)	
+		branchService.add(name: releaseBranchName, startPoint: 'local-branch', mode: BranchAddOp.Mode.TRACK)
+		repo.push(all:true, tags: true)	
 	}	
 }
 
