@@ -31,18 +31,27 @@ release {
 }
 
 task createReleaseBranch() {
-	def releaseBranchName = System.getProperty("release.name")
-	if (null == releaseBranchName) {
-		throw new GradleException('-Drelease.name=.. missing.')
-	}
 	doLast {
+		def releaseBranchName = System.getProperty("release.name")
+		if (null == releaseBranchName) {
+			throw new GradleException('-Drelease.name=.. missing.')
+		}
+		println "release branch name = ${releaseBranchName}"
 		repo = Grgit.open(project.file('.'))
 		println "repo=${repo.getClass()}"
 		def branchService = repo.getBranch()
 		println "branchService=${branchService.getClass()}"
 		def developBranch = branchService.getCurrent()
 		println "branch current=${developBranch}"
-		branchService.add(name: "release/test")	
+		def branchStatus
+		try {
+			branchStatus = branchService.getStatus(name: releaseBranchName)
+			throw new GradleException("Branch ${releaseBranchName} already exists.")
+		}
+		catch(Exception e) {}	
+		println "branch status=${branchStatus.getClass()}"
+		println "branch status=${branchStatus}"
+		branchService.add(name: releaseBranchName)	
 		println "branch current=${branchService.getCurrent()}"
 		//branchService.change(name: "develop")
 	}	
