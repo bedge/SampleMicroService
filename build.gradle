@@ -33,8 +33,10 @@ release {
 task createReleaseBranch() {
 	doLast {
 		def releaseBranchName = System.getProperty("release.name")
+		println "releaseBranchName=${releaseBranchName}"
 		if (null == releaseBranchName) {
-			throw new GradleException('-Drelease.name=.. missing.')
+			println "releaseBranchName=NULL"
+			throw new GradleException("-Dßrelease.name=.. missing.")
 		}
 		println "release branch name = ${releaseBranchName}"
 		repo = Grgit.open(project.file('.'))
