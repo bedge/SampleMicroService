@@ -36,7 +36,6 @@ task createReleaseBranch() {
 		println "releaseBranchName=${releaseBranchName}"
 		if (null == releaseBranchName) {
 			println "releaseBranchName=NULL"
-			println "-Dßrelease.name=.. missing."
 			throw new GradleException("-Dßrelease.name=.. missing.")
 		}
 		println "release branch name = ${releaseBranchName}"
