@@ -69,8 +69,8 @@ class CustomEventLogger extends BuildAdapter implements TaskExecutionListener {
 	}
 	public void afterExecute(Task task, TaskState state) {
 		println "afterExec ${task.name}"
-		println "${(new File('gradle.properties')).text}"
-		println "version=${version}"
+//		println "${(new File('gradle.properties')).text}"
+//		println "version=${version}"
 	}
 }
 gradle.useLogger(new CustomEventLogger())
