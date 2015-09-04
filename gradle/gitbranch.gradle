@@ -21,6 +21,21 @@ release {
 	}
 }
 
+task checkReleaseTag() {
+	doLast {
+		def tags = repo.tag.list()
+		println "version=${version}"
+		tags.forEach() { tag ->
+			println("tagClass=${tag.getClass()}")
+			println("tagName=${tag.getFullName()}")
+			println("tag dump=${tag.dump()}")
+		}
+	}
+}
+
+//createReleaseTag.dependsOn checkReleaseTag
+createReleaseTag.dependsOn preTagCommit
+
 task createReleaseBranch() {
 	doLast {
 		def release = System.getProperty("release.name")
@@ -29,7 +44,7 @@ task createReleaseBranch() {
 		}
 		def releaseBranchName = "release/${release}"
 		println "release branch name = ${releaseBranchName}"
-		repo = Grgit.open(project.file('.'))
+	//	repo = Grgit.open(project.file('.'))
 		def branchService = repo.getBranch()
 		def developBranch = branchService.getCurrent()
 		def branchStatus
