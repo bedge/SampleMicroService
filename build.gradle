@@ -1,5 +1,5 @@
-import org.ajoberstar.grgit.*
-import org.ajoberstar.grgit.operation.*
+//import org.ajoberstar.grgit.*
+//import org.ajoberstar.grgit.operation.*
 
 buildscript {
     repositories {
@@ -19,41 +19,11 @@ apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply from: "gradle/autoversioning.gradle"
+apply from: "gradle/gitbranch.gradle"
 //apply from: "gradle/herokuDeploy.gradle"
 //apply from: 'gradle/smoketests.gradle'
 //apply from: 'gradle/issuetracker.gradle'
 
-ext.repo = Grgit.open(project.file('.'))
-
-release {
-	git {
-		requireBranch = 'develop'
-	}
-}
-
-task createReleaseBranch() {
-	doLast {
-		def release = System.getProperty("release.name")
-		if (null == release) {
-			throw new GradleException("-Dßrelease.name=.. missing.")
-		}
-		def releaseBranchName = "release/${release}"
-		println "release branch name = ${releaseBranchName}"
-		repo = Grgit.open(project.file('.'))
-		def branchService = repo.getBranch()
-		def developBranch = branchService.getCurrent()
-		def branchStatus
-		try {
-			branchStatus = branchService.getStatus(name: "release/${releaseBranchName}")
-			throw new GradleException("Branch ${releaseBranchName} already exists.")
-		}
-		catch(Exception e) {}
-		branchService.add(name: releaseBranchName, startPoint: 'develop', mode: BranchAddOp.Mode.TRACK)
-		repo.push(tags: true)	
-	}	
-}
-
-updateVersion.dependsOn createReleaseBranch
 
 repositories {
     jcenter()

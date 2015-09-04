@@ -1,0 +1,46 @@
+import org.ajoberstar.grgit.*
+import org.ajoberstar.grgit.operation.*
+
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE")
+		classpath 'org.ajoberstar:gradle-git:1.3.0'
+	}
+}
+
+//apply from: "gradle/autoversioning.gradle"
+
+ext.repo = Grgit.open(project.file('.'))
+
+release {
+	git {
+		requireBranch = 'develop'
+	}
+}
+
+task createReleaseBranch() {
+	doLast {
+		def release = System.getProperty("release.name")
+		if (null == release) {
+			throw new GradleException("-Dßrelease.name=.. missing.")
+		}
+		def releaseBranchName = "release/${release}"
+		println "release branch name = ${releaseBranchName}"
+		repo = Grgit.open(project.file('.'))
+		def branchService = repo.getBranch()
+		def developBranch = branchService.getCurrent()
+		def branchStatus
+		try {
+			branchStatus = branchService.getStatus(name: "release/${releaseBranchName}")
+			throw new GradleException("Branch ${releaseBranchName} already exists.")
+		}
+		catch(Exception e) {}
+		branchService.add(name: releaseBranchName, startPoint: 'develop', mode: BranchAddOp.Mode.TRACK)
+		repo.push(tags: true)	
+	}	
+}
+
+updateVersion.dependsOn createReleaseBranch
